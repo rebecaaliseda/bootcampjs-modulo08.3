@@ -34,15 +34,18 @@ export const handler = (tablero: Tablero, indice: number, img: HTMLImageElement)
     crearImagenCarta(tablero, indice, img);
     esSegundaCarta(tablero);
   } else {
-    if (
-      (tablero.cartas[indice].estaVuelta && tablero.estadoPartida == 'UnaCartaLevantada') ||
-      (tablero.cartas[indice].estaVuelta && tablero.estadoPartida == 'DosCartasLevantadas')
-    ) {
-      mostrarMensaje('Carta ya volteada, pulse otra');
-    }
+    mostrarMensajeCartaYaVolteada(tablero, indice);
   }
 };
 
+export const mostrarMensajeCartaYaVolteada = (tablero: Tablero, indice: number) => {
+  if (
+    (tablero.cartas[indice].estaVuelta && tablero.estadoPartida == 'UnaCartaLevantada') ||
+    (tablero.cartas[indice].estaVuelta && tablero.estadoPartida == 'DosCartasLevantadas')
+  ) {
+    mostrarMensaje('Carta ya volteada, pulse otra');
+  }
+};
 export const crearImagenCarta = (tablero: Tablero, indice: number, img: HTMLImageElement) => {
   let urlImagen = tablero.cartas[indice].imagen;
   img.src = urlImagen;
@@ -62,13 +65,17 @@ export const esSegundaCarta = (tablero: Tablero) => {
     tablero.estadoPartida === 'DosCartasLevantadas'
   ) {
     if (sonPareja(indiceA, indiceB, tablero)) {
-      if (esPartidaCompleta(tablero)) {
-        mostrarMensaje('¡Lo lograste, fin de la partida!🕺🥳');
-      }
+      mostrarMensajeSiPartidaCompleta(tablero);
     } else {
       voltearCartasParejaIncorrecta(tablero.cartas);
     }
     mostrarNumIntentos(tablero.numIntentos);
+  }
+};
+
+export const mostrarMensajeSiPartidaCompleta = (tablero: Tablero) => {
+  if (esPartidaCompleta(tablero)) {
+    mostrarMensaje('¡Lo lograste, fin de la partida!🕺🥳');
   }
 };
 

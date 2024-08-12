@@ -59,16 +59,14 @@ export const crearCartaInicial = (idFoto: number, imagen: string): Carta => ({
   encontrada: false,
 });
 
-export const crearColeccionDeCartasInicial = (infoCartas: InfoCarta[]): Carta[] => {
-  let coleccionDeCartasInicial = JSON.parse(JSON.stringify(infoCartas)).map(
-    (infocarta: InfoCarta) => {
-      return crearCartaInicial(infocarta.idFoto, infocarta.imagen);
-    }
-  );
+const crearColeccionDeCartasInicial = (infoCartas: InfoCarta[]): Carta[] => {
+  let coleccionCartasInicial = infoCartas.map((infocarta) => {
+    return crearCartaInicial(infocarta.idFoto, infocarta.imagen);
+  });
 
-  coleccionDeCartasInicial = [...coleccionDeCartasInicial, ...coleccionDeCartasInicial];
+  coleccionCartasInicial = [...coleccionCartasInicial, ...coleccionCartasInicial];
 
-  return coleccionDeCartasInicial;
+  return coleccionCartasInicial;
 };
 
 export let cartas: Carta[] = crearColeccionDeCartasInicial(infoCartas);
